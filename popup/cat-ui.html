@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="root.css" />
+  </head>
+
+  <body>
+    <!-- Header -->
+    <div class="g__settings-container">
+      <div>
+        <label class="g__toggl-extension">
+          <input type="checkbox" class="g__toggl-checkbox" id="global-extension-enable" />
+          <span class="g__toggl-slider"></span>
+        </label>
+        <span>Toggle Extension</span>
+      </div>
+      <div>
+        <!-- Icono según la red social activa -->
+        <img src="../icons/disturbing-cat-32-white.avif" id="g__sm-icon" width="32" height="32" alt="Disturbing Cat Icon" />
+      </div>
+      <button id="btn-keywords">
+        <span>Keywords</span>
+      </button>
+    </div>
+
+    <!-- Global settings -->
+    <div class="separator"></div>
+    <div class="global-settings">
+      <h3>Global settings</h3>
+
+      <div>
+        <input type="checkbox" id="global-grayscale" name="global-grayscale" />
+        <label for="global-grayscale">Grayscale mode</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="global-cat-suggestions" name="global-cat-suggestions" />
+        <label for="global-cat-suggestions">Allow suggestions from the cat</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="global-focus-hours" name="global-focus-hours" />
+        <label for="global-focus-hours">Allow focus hours</label>
+      </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <!-- Default State (Si no está en Twitter, IG ni YT) -->
+    <div class="sm__configs default hidden">
+      <h1>Nothing to hide!</h1>
+      <img src="../icons/disturbing-cat-32-white.avif" width="128" height="128" alt="Cat Icon" />
+    </div>
+
+    <!-- Twitter / X -->
+    <div class="sm__configs twitter hidden">
+      <div>
+        <input type="checkbox" id="allowed-posts-tw" name="allowed-posts-tw" />
+        <label for="allowed-posts-tw">See posts from allowed list</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="keywords-tw" name="keywords-tw" />
+        <label for="keywords-tw">Allow keywords</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="only-following-tw" name="only-following-tw" />
+        <label for="only-following-tw">Solo seguidos</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="remove-stuff-tw" name="remove-stuff-tw" />
+        <label for="remove-stuff-tw">Remove unnecessary buttons</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="posts-limit-tw" name="posts-limit-tw" />
+        <select name="limit-period-tw" id="limit-period-tw">
+          <option value="daily">Diario</option>
+          <option value="hourly">Cada hora</option>
+        </select>
+        <label for="posts-limit-tw">Posts limit</label>
+      </div>
+    </div>
+
+    <!-- Instagram -->
+    <div class="sm__configs instagram hidden">
+      <div>
+        <input type="checkbox" id="allowed-posts-ig" name="allowed-posts-ig" />
+        <label for="allowed-posts-ig">See posts from allowed list</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="remove-stuff-ig" name="remove-stuff-ig" />
+        <label for="remove-stuff-ig">Remove unnecessary buttons</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="hide-comments-ig" name="hide-comments-ig" />
+        <label for="hide-comments-ig">Hide comments</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="hide-metrics-ig" name="hide-metrics-ig" />
+        <label for="hide-metrics-ig">Hide metrics (Likes, repost, send)</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="posts-limit-ig" name="posts-limit-ig" />
+        <select name="limit-period-posts-ig" id="limit-period-posts-ig">
+          <option value="daily">Diario</option>
+          <option value="hourly">Cada hora</option>
+        </select>
+        <label for="posts-limit-ig">Posts limit</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="storys-limit-ig" name="storys-limit-ig" />
+        <select name="limit-period-stories-ig" id="limit-period-stories-ig">
+          <option value="daily">Diario</option>
+          <option value="hourly">Cada hora</option>
+        </select>
+        <label for="storys-limit-ig">Stories limit</label>
+      </div>
+    </div>
+
+    <!-- Youtube -->
+    <div class="sm__configs youtube hidden">
+      <div>
+        <input type="checkbox" id="no-autoscroll-yt" name="no-autoscroll-yt" />
+        <label for="no-autoscroll-yt">Remove autoscroll</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="remove-stuff-yt" name="remove-stuff-yt" />
+        <label for="remove-stuff-yt">Remove unnecessary buttons</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="hide-comments-yt" name="hide-comments-yt" />
+        <label for="hide-comments-yt">Hide comments</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="hide-metrics-yt" name="hide-metrics-yt" />
+        <label for="hide-metrics-yt">Hide metrics (Likes, share)</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="shorts-limit-yt" name="shorts-limit-yt" />
+        <select name="limit-period-shorts-yt" id="limit-period-shorts-yt">
+          <option value="daily">Diario</option>
+          <option value="hourly">Cada hora</option>
+        </select>
+        <label for="shorts-limit-yt">Shorts limit</label>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="ft__credits-container">
+      <div class="separator"></div>
+
+      <a href="https://github.com/AikePetunia/disturbing-cat" target="_blank">Open Source</a>
+      <h6 class="ft__credits-of-awesome-person">
+        Developed By <a href="https://aike.tech/" target="_blank">Aike</a>
+        <img src="../icons/eye.gif" width="20" height="20" alt="Eye GIF" />
+      </h6>
+    </div>
+
+    <script src="cat-ui.mjs" type="module"></script>
+  </body>
+</html>

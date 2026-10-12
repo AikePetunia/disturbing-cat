@@ -1,0 +1,16 @@
+@import url("./sm/social-media-ig.css");
+@import url("./sm/social-media-tw.css");
+@import url("./sm/social-media-yt.css");
+
+.sm__configs {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.sm__configs.default {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20% 0;
+}

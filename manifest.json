@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "disturbing-cat",
+  "version": "0.1",
+  "description": "When your cat approaches to your desktop and you can't see what's going on...",
+  "homepage_url": "https://github.com/AikePetunia/disturbing-cat",
+  "permissions": ["activeTab", "storage"],
+  "background": {
+    "scripts": ["background.mjs"],
+    "type": "module"
+  },
+  "action": {
+    "default_icon": "icons/disturbing-cat-32-white.avif",
+    "theme_icons": [
+      {
+        "light": "icons/disturbing-cat-32-black.avif",
+        "dark": "icons/disturbing-cat-32-white.avif",
+        "size": 32
+      }
+    ],
+    "default_title": "Disturbing-cat !",
+    "default_popup": "popup/cat-ui.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["beasts/*.jpg"],
+      "matches": ["*://*/*"]
+    }
+  ],
+  "developer": {
+    "name": "Aike"
+  }
+}

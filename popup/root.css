@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap");
+@import url("./css/footer.css");
+@import url("./css/settings.css");
+@import url("./css/social-media.css");
+
+:root {
+  --bg: #0b0b0b;
+  --surface: #151515;
+  --text: #e8e8e8;
+  --muted: #a3a3a3;
+  --separetor: #313131;
+
+  --primary: #e0e0e0;
+  --primary-600: #c8c8c8;
+  --primary-400: #f0f0f0;
+
+  --glow-strong: rgba(240, 240, 240, 0.45);
+  --glow-weak: rgba(240, 240, 240, 0.15);
+
+  --font-heading: "VT323", monospace;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "Space Mono", monospace;
+}
+
+html,
+body {
+  width: 400px;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.separator {
+  width: 100%;
+  margin: 4px 0px;
+  border-radius: 16px;
+  border: 1px solid var(--separetor);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  color: var(--text);
+  margin: 0;
+  font-weight: 400;
+  font-style: normal;
+}
+
+span, label,
+p {
+  font-family: var(--font-body);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+a {
+  font-family: var(--font-heading);
+  color: var(--primary);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.hidden {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0 !important;
+}

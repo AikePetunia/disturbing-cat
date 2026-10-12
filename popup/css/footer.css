@@ -1,0 +1,15 @@
+.ft__credits-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+}
+
+.ft__credits-of-awesome-person {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
