@@ -4,7 +4,7 @@
 
 .sm__configs {
   display: flex;
-  gap: 12px;
+  gap: 4px;
   flex-direction: column;
 }
 

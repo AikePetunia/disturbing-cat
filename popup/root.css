@@ -2,7 +2,7 @@
 @import url("./css/footer.css");
 @import url("./css/settings.css");
 @import url("./css/social-media.css");
-
+@import url("./css/header.css");
 :root {
   --bg: #0b0b0b;
   --surface: #151515;
@@ -54,6 +54,7 @@ p {
   font-family: var(--font-body);
   font-optical-sizing: auto;
   font-weight: 500;
+  font-size: 14px;
   font-style: normal;
 }
 

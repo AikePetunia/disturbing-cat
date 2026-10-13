@@ -7,21 +7,18 @@
 
   <body>
     <!-- Header -->
-    <div class="g__settings-container">
+    <div class="g__header-container">
       <div>
         <label class="g__toggl-extension">
           <input type="checkbox" class="g__toggl-checkbox" id="global-extension-enable" />
           <span class="g__toggl-slider"></span>
         </label>
-        <span>Toggle Extension</span>
+        <span>Toggle Extension on</span>
       </div>
       <div>
-        <!-- Icono según la red social activa -->
+        <!-- Icon changes if u are on a social media -->
         <img src="../icons/disturbing-cat-32-white.avif" id="g__sm-icon" width="32" height="32" alt="Disturbing Cat Icon" />
       </div>
-      <button id="btn-keywords">
-        <span>Keywords</span>
-      </button>
     </div>
 
     <!-- Global settings -->
@@ -45,9 +42,18 @@
       </div>
     </div>
 
-    <div class="separator"></div>
+     <!-- Keywords -->
+     <div class="kw__container">
+      <div class="kw__input">
+        <input type="text" name="" id="inp1">
+        <button id="create">Add keyword</button>
+        <div id="kw__added-container"></div>
+      </div>
+      <div class="separator"></div>
+    </div>
 
-    <!-- Default State (Si no está en Twitter, IG ni YT) -->
+
+    <!-- Default State -->
     <div class="sm__configs default hidden">
       <h1>Nothing to hide!</h1>
       <img src="../icons/disturbing-cat-32-white.avif" width="128" height="128" alt="Cat Icon" />
@@ -67,7 +73,7 @@
 
       <div>
         <input type="checkbox" id="only-following-tw" name="only-following-tw" />
-        <label for="only-following-tw">Solo seguidos</label>
+        <label for="only-following-tw">Only followers</label>
       </div>
 
       <div>
@@ -82,6 +88,13 @@
           <option value="hourly">Cada hora</option>
         </select>
         <label for="posts-limit-tw">Posts limit</label>
+        <input 
+  class="post-limit-general" 
+  type="text" 
+  inputmode="numeric" 
+  data-min="0" 
+  data-max="99"
+/>
       </div>
     </div>
 
@@ -108,12 +121,20 @@
       </div>
 
       <div>
-        <input type="checkbox" id="posts-limit-ig" name="posts-limit-ig" />
+        <input type="checkbox" id="posts-1º-ig" name="posts-limit-ig" />
         <select name="limit-period-posts-ig" id="limit-period-posts-ig">
           <option value="daily">Diario</option>
           <option value="hourly">Cada hora</option>
         </select>
         <label for="posts-limit-ig">Posts limit</label>
+                <input 
+  class="post-limit-general" 
+  type="text" 
+  inputmode="numeric" 
+  data-min="0" 
+  data-max="99"
+/>
+
       </div>
 
       <div>
@@ -123,6 +144,14 @@
           <option value="hourly">Cada hora</option>
         </select>
         <label for="storys-limit-ig">Stories limit</label>
+                <input 
+  class="post-limit-general" 
+  type="text" 
+  inputmode="numeric" 
+  data-min="0" 
+  data-max="99"
+/>
+
       </div>
     </div>
 
@@ -158,6 +187,7 @@
       </div>
     </div>
 
+   
     <!-- Footer -->
     <div class="ft__credits-container">
       <div class="separator"></div>
