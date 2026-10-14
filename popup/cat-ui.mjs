@@ -1,12 +1,97 @@
-const whereAmI = window.location.hostname;
-const mainIcon = document.getElementById("g__sm-icon");
-const twIconPath = "../icons/social-media/tw.avif";
-const igIconPath = "../icons/social-media/ig.avif";
-const ytIconPath = "../icons/social-media/yt.avif";
+import { kwLogic } from "./cat-kw-logic.mjs";
 
-changeUiOnDomain("x.com");
+const whereAmI = window.location.hostname;
+let extensionOn = false;
+
+const socialMediaIcon = {
+  twIconPath: "../icons/social-media/tw.avif",
+  igIconPath: "../icons/social-media/ig.avif",
+  ytIconPath: "../icons/social-media/yt.avif",
+};
+
+const element = {
+  mainIcon: document.getElementById("g__sm-icon"),
+  extensionToggler: document.querySelector(".g__toggl-checkbox"),
+  extensionTogglerText: document.querySelector(".g__extension-toggle-text"),
+  nothingToHide: document.querySelector(".nothing-to-hide"),
+  globalSettings: document.querySelector(".global-settings"),
+  kwContainerCuzImLazy: document.querySelector(".kw__container"),
+};
+
+const defaultGlobalSettings = {
+  grayscale: false,
+  suggestions: true,
+  focus: false,
+  blacklistEnabled: false, // no está en dom
+  keywords: [],
+  twitter: {
+    friendList: true,
+    friendList: [], // no está en dom
+    allowKeywords: true,
+    seeTweetsFromFollowers: true,
+    removeUnnecesary: true,
+    limitEnabled: true,
+    limitType: {
+      diary: false,
+      hourly: true,
+    },
+    postLimit: 25,
+  },
+  instagram: {
+    friendList: true,
+    friendList: [], // no está en dom
+    allowKeywords: true,
+    removeUnnecesary: true,
+    hideMetrics: true,
+    storyLimitEnabled: true,
+    storyLimitType: {
+      diary: false,
+      hourly: true,
+    },
+    storyLimit: 25,
+    postsLimitEnabled: true,
+    postsLimitType: {
+      diary: false,
+      hourly: true,
+    },
+    postsLimit: 25,
+  },
+  youtube: {
+    removeAutoscroll: true,
+    removeUnnecesary: true,
+    hideComments: true,
+    hideMetrics: true,
+    limitEnabled: true,
+    shortsLimitEnabled: true,
+    shortsLimitType: {
+      diary: false,
+      hourly: true,
+    },
+    shortsLimit: 25,
+  },
+};
+
+element.extensionToggler.addEventListener("click", () => {
+  handleToggler();
+});
+
+function handleToggler() {
+  extensionOn = !extensionOn;
+  if (extensionOn) {
+    element.extensionTogglerText.innerHTML = "Cat will disturb.";
+    changeUiOnDomain("youtube.com");
+  } else if (!extensionOn) {
+    element.extensionTogglerText.innerHTML = "Cat won't disturb :).";
+    executeDefault();
+  }
+}
+handleToggler();
 
 function changeUiOnDomain(socialMedia) {
+  element.nothingToHide.classList.add("hidden");
+  element.globalSettings.classList.remove("hidden");
+  element.kwContainerCuzImLazy.classList.remove("hidden");
+
   switch (true) {
     case socialMedia.includes("instagram.com") ||
       socialMedia.includes("instagr.am") ||
@@ -16,8 +101,7 @@ function changeUiOnDomain(socialMedia) {
 
     case socialMedia.includes("x.com") || socialMedia.includes("twitter.com"):
       executeTwitterUI();
-      //github.com/AikePetunia/Famaf
-      https: break;
+      break;
 
     case socialMedia.includes("youtu.be") ||
       socialMedia.includes("youtube.com"):
@@ -30,105 +114,29 @@ function changeUiOnDomain(socialMedia) {
 }
 
 function executeYoutubeUI() {
-  const configDefault = document.querySelector(".sm__configs.youtube");
-  configDefault.classList.remove("hidden");
-  mainIcon.src = ytIconPath;
+  const nothingToHide = document.querySelector(".sm__configs.youtube");
+  nothingToHide.classList.remove("hidden");
+  element.mainIcon.src = socialMediaIcon.ytIconPath;
 }
 
 function executeInstagramUI() {
-  const configDefault = document.querySelector(".sm__configs.instagram");
-  configDefault.classList.remove("hidden");
-  mainIcon.src = igIconPath;
-
-  /*
-- Close Friends / see post from account
-  Lo que se saca, se pone el gato o lo q fuera
-- Solo seguidos (en twitter)
-
-
--Remover cosas innecesarias:
-  Sugeridos
-  Reels
-  el + de crear
-  Panel
-  Los cubos de abajo esos raros
-
-
-Daily limit (post/shorts/historias/tweets) o limite por hora
-
-*/
+  const nothingToHide = document.querySelector(".sm__configs.instagram");
+  nothingToHide.classList.remove("hidden");
+  element.mainIcon.src = socialMediaIcon.igIconPath;
 }
 function executeTwitterUI() {
-  const configDefault = document.querySelector(".sm__configs.twitter");
-  configDefault.classList.remove("hidden");
-  mainIcon.src = twIconPath;
+  const nothingToHide = document.querySelector(".sm__configs.twitter");
+  nothingToHide.classList.remove("hidden");
+  element.mainIcon.src = socialMediaIcon.twIconPath;
   console.log("on tw");
-  /*
-- Close Friends / see post from account
-  Lo que se saca, se pone el gato o lo q fuera
-- Solo seguidos (en twitter)
-
-
--Remover cosas innecesarias:
-  TODA LA BARRA DERECHA
-  Barra izquierda:
-  Explore
-  Calls
-  Grok
-  Creator Studio
-  Premium
-
-
-Daily limit (post/shorts/historias/tweets) o limite por hora
-*/
 }
 
 function executeDefault() {
-  const configDefault = document.querySelector(".sm__configs.default");
-  const globalSettings = document.querySelector(".global-settings");
-  const kwContainerCuzImLazy = document.querySelector(".kw__container");
-  configDefault.classList.remove("hidden");
-  globalSettings.classList.add("hidden");
-  kwContainerCuzImLazy.classList.add("hidden");
+  const anySettings = document.querySelectorAll("div.sm__configs");
+  element.nothingToHide.classList.remove("hidden");
+  element.globalSettings.classList.add("hidden");
+  element.kwContainerCuzImLazy.classList.add("hidden");
+  anySettings.forEach((el) => el.classList.add("hidden"));
 }
 
-// keywords logic
-const create = document.getElementById("create");
-const inp1 = document.getElementById("inp1");
-const kwAddedContainer = document.getElementById("kw__added-container");
-create.addEventListener("click", () => {
-  let inp = inp1.value;
-
-  if (inp === "") return;
-
-  let newELement = document.createElement("span");
-  newELement.classList.add("kw__blacklist");
-  newELement.innerHTML = inp;
-  kwAddedContainer.append(newELement);
-
-  newELement.addEventListener("click", () => {
-    newELement.remove();
-  });
-  inp1.value = "";
-});
-
-const input = document.querySelector(".post-limit-general");
-
-input.addEventListener("input", (e) => {
-  const min = Number(e.target.dataset.min);
-  const max = Number(e.target.dataset.max);
-
-  let val = e.target.value.replace(/\D/g, "");
-
-  if (val === "") {
-    e.target.value = "";
-    return;
-  }
-
-  let num = Number(val);
-
-  if (num > max) num = max;
-  if (num < min) num = min;
-
-  e.target.value = num;
-});
+kwLogic();

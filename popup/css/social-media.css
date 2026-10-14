@@ -8,9 +8,10 @@
   flex-direction: column;
 }
 
-.sm__configs.default {
+.nothing-to-hide {
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 20% 0;
+  flex-direction: column;
 }

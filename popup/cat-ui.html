@@ -13,7 +13,7 @@
           <input type="checkbox" class="g__toggl-checkbox" id="global-extension-enable" />
           <span class="g__toggl-slider"></span>
         </label>
-        <span>Toggle Extension on</span>
+        <span class="g__extension-toggle-text">Cat won't disturb.</span>
       </div>
       <div>
         <!-- Icon changes if u are on a social media -->
@@ -23,9 +23,8 @@
 
     <!-- Global settings -->
     <div class="separator"></div>
-    <div class="global-settings">
-      <h3>Global settings</h3>
-
+    <div class="global-settings hidden">
+      <h5>Global settings</h5>
       <div>
         <input type="checkbox" id="global-grayscale" name="global-grayscale" />
         <label for="global-grayscale">Grayscale mode</label>
@@ -43,7 +42,7 @@
     </div>
 
      <!-- Keywords -->
-     <div class="kw__container">
+     <div class="kw__container hidden">
       <div class="kw__input">
         <input type="text" name="" id="inp1">
         <button id="create">Add keyword</button>
@@ -54,13 +53,14 @@
 
 
     <!-- Default State -->
-    <div class="sm__configs default hidden">
+    <div class="nothing-to-hide ">
       <h1>Nothing to hide!</h1>
       <img src="../icons/disturbing-cat-32-white.avif" width="128" height="128" alt="Cat Icon" />
     </div>
 
     <!-- Twitter / X -->
     <div class="sm__configs twitter hidden">
+      <h5> Twitter Settings </h5>
       <div>
         <input type="checkbox" id="allowed-posts-tw" name="allowed-posts-tw" />
         <label for="allowed-posts-tw">See posts from allowed list</label>
@@ -100,6 +100,7 @@
 
     <!-- Instagram -->
     <div class="sm__configs instagram hidden">
+      <h5> Instagram Settings </h5>
       <div>
         <input type="checkbox" id="allowed-posts-ig" name="allowed-posts-ig" />
         <label for="allowed-posts-ig">See posts from allowed list</label>
@@ -157,6 +158,7 @@
 
     <!-- Youtube -->
     <div class="sm__configs youtube hidden">
+      <h5> Youtube Settings </h5>
       <div>
         <input type="checkbox" id="no-autoscroll-yt" name="no-autoscroll-yt" />
         <label for="no-autoscroll-yt">Remove autoscroll</label>
