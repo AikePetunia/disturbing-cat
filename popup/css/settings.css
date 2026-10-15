@@ -23,17 +23,7 @@
   cursor: pointer;
 }
 
-.post-limit-general {
+.post-limit-ig, .shorts-limit-yt, .tweets-limit-tw, .story-limit-ig {
   width: 32px;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}

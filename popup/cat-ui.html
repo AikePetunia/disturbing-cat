@@ -10,7 +10,7 @@
     <div class="g__header-container">
       <div>
         <label class="g__toggl-extension">
-          <input type="checkbox" class="g__toggl-checkbox" id="global-extension-enable" />
+          <input type="checkbox" class="g__toggl-checkbox" id="global-extension-enable" name="enabled" />
           <span class="g__toggl-slider"></span>
         </label>
         <span class="g__extension-toggle-text">Cat won't disturb.</span>
@@ -26,17 +26,17 @@
     <div class="global-settings hidden">
       <h5>Global settings</h5>
       <div>
-        <input type="checkbox" id="global-grayscale" name="global-grayscale" />
+        <input type="checkbox" id="global-grayscale" name="grayscale" />
         <label for="global-grayscale">Grayscale mode</label>
       </div>
 
       <div>
-        <input type="checkbox" id="global-cat-suggestions" name="global-cat-suggestions" />
+        <input type="checkbox" id="global-cat-suggestions" name="suggestions" />
         <label for="global-cat-suggestions">Allow suggestions from the cat</label>
       </div>
 
       <div>
-        <input type="checkbox" id="global-focus-hours" name="global-focus-hours" />
+        <input type="checkbox" id="global-focus-hours" name="focus" />
         <label for="global-focus-hours">Allow focus hours</label>
       </div>
     </div>
@@ -51,7 +51,6 @@
       <div class="separator"></div>
     </div>
 
-
     <!-- Default State -->
     <div class="nothing-to-hide ">
       <h1>Nothing to hide!</h1>
@@ -62,39 +61,40 @@
     <div class="sm__configs twitter hidden">
       <h5> Twitter Settings </h5>
       <div>
-        <input type="checkbox" id="allowed-posts-tw" name="allowed-posts-tw" />
+        <input type="checkbox" id="allowed-posts-tw" name="twitter.allowedListEnabled" />
         <label for="allowed-posts-tw">See posts from allowed list</label>
       </div>
 
       <div>
-        <input type="checkbox" id="keywords-tw" name="keywords-tw" />
+        <input type="checkbox" id="keywords-tw" name="twitter.allowKeywords" />
         <label for="keywords-tw">Allow keywords</label>
       </div>
 
       <div>
-        <input type="checkbox" id="only-following-tw" name="only-following-tw" />
+        <input type="checkbox" id="only-following-tw" name="twitter.onlyFollowing" />
         <label for="only-following-tw">Only followers</label>
       </div>
 
       <div>
-        <input type="checkbox" id="remove-stuff-tw" name="remove-stuff-tw" />
+        <input type="checkbox" id="remove-stuff-tw" name="twitter.removeUnnecessary" />
         <label for="remove-stuff-tw">Remove unnecessary buttons</label>
       </div>
 
       <div>
-        <input type="checkbox" id="posts-limit-tw" name="posts-limit-tw" />
-        <select name="limit-period-tw" id="limit-period-tw">
-          <option value="daily">Diario</option>
-          <option value="hourly">Cada hora</option>
+        <input type="checkbox" id="tweets-limit-tw" name="twitter.tweetsLimitEnabled" />
+        <select name="twitter.tweetsLimitPeriod" id="limit-period-tw">
+          <option value="daily">Daily</option>
+          <option value="hourly">Hourly</option>
         </select>
-        <label for="posts-limit-tw">Posts limit</label>
+        <label for="tweets-limit-tw">Tweets limit</label>
         <input 
-  class="post-limit-general" 
-  type="text" 
-  inputmode="numeric" 
-  data-min="0" 
-  data-max="99"
-/>
+        class="post-limit-input-ig" 
+        type="text" 
+        inputmode="numeric" 
+        name="twitter.tweetsLimit"
+        data-min="0" 
+        data-max="99"
+      />
       </div>
     </div>
 
@@ -102,56 +102,58 @@
     <div class="sm__configs instagram hidden">
       <h5> Instagram Settings </h5>
       <div>
-        <input type="checkbox" id="allowed-posts-ig" name="allowed-posts-ig" />
+        <input type="checkbox" id="allowed-posts-ig" name="instagram.allowedListEnabled" />
         <label for="allowed-posts-ig">See posts from allowed list</label>
       </div>
 
       <div>
-        <input type="checkbox" id="remove-stuff-ig" name="remove-stuff-ig" />
+        <input type="checkbox" id="remove-stuff-ig" name="instagram.removeUnnecessary" />
         <label for="remove-stuff-ig">Remove unnecessary buttons</label>
       </div>
 
       <div>
-        <input type="checkbox" id="hide-comments-ig" name="hide-comments-ig" />
+        <input type="checkbox" id="hide-comments-ig" name="instagram.hideComments" />
         <label for="hide-comments-ig">Hide comments</label>
       </div>
 
       <div>
-        <input type="checkbox" id="hide-metrics-ig" name="hide-metrics-ig" />
+        <input type="checkbox" id="hide-metrics-ig" name="instagram.hideMetrics" />
         <label for="hide-metrics-ig">Hide metrics (Likes, repost, send)</label>
       </div>
 
       <div>
-        <input type="checkbox" id="posts-1º-ig" name="posts-limit-ig" />
-        <select name="limit-period-posts-ig" id="limit-period-posts-ig">
-          <option value="daily">Diario</option>
-          <option value="hourly">Cada hora</option>
+        <input type="checkbox" id="posts-limit-ig" name="instagram.postsLimitEnabled" />
+        <select name="instagram.postsLimitPeriod" id="limit-period-posts-ig">
+          <option value="daily">Daily</option>
+          <option value="hourly">Hourly</option>
         </select>
         <label for="posts-limit-ig">Posts limit</label>
-                <input 
-  class="post-limit-general" 
-  type="text" 
-  inputmode="numeric" 
-  data-min="0" 
-  data-max="99"
-/>
+        <input 
+          class="post-limit-input-ig" 
+          type="text" 
+          inputmode="numeric" 
+          name="instagram.postsLimit"
+          data-min="0" 
+          data-max="99"
+        />
 
       </div>
 
       <div>
-        <input type="checkbox" id="storys-limit-ig" name="storys-limit-ig" />
-        <select name="limit-period-stories-ig" id="limit-period-stories-ig">
-          <option value="daily">Diario</option>
-          <option value="hourly">Cada hora</option>
+        <input type="checkbox" id="story-limit-ig" name="instagram.storyLimitEnabled" />
+        <select name="instagram.storyLimitPeriod" id="limit-period-stories-ig">
+          <option value="daily">Daily</option>
+          <option value="hourly">Hourly</option>
         </select>
-        <label for="storys-limit-ig">Stories limit</label>
-                <input 
-  class="post-limit-general" 
-  type="text" 
-  inputmode="numeric" 
-  data-min="0" 
-  data-max="99"
-/>
+        <label for="story-limit-ig">Stories limit</label>
+        <input 
+        class="story-limit-input-ig" 
+        type="text" 
+        inputmode="numeric" 
+        name="instagram.storyLimit"
+        data-min="0" 
+        data-max="99"
+      />
 
       </div>
     </div>
@@ -160,32 +162,40 @@
     <div class="sm__configs youtube hidden">
       <h5> Youtube Settings </h5>
       <div>
-        <input type="checkbox" id="no-autoscroll-yt" name="no-autoscroll-yt" />
+        <input type="checkbox" id="no-autoscroll-yt" name="youtube.removeAutoscroll" />
         <label for="no-autoscroll-yt">Remove autoscroll</label>
       </div>
 
       <div>
-        <input type="checkbox" id="remove-stuff-yt" name="remove-stuff-yt" />
+        <input type="checkbox" id="remove-stuff-yt" name="youtube.removeUnnecessary" />
         <label for="remove-stuff-yt">Remove unnecessary buttons</label>
       </div>
 
       <div>
-        <input type="checkbox" id="hide-comments-yt" name="hide-comments-yt" />
+        <input type="checkbox" id="hide-comments-yt" name="youtube.hideComments" />
         <label for="hide-comments-yt">Hide comments</label>
       </div>
 
       <div>
-        <input type="checkbox" id="hide-metrics-yt" name="hide-metrics-yt" />
+        <input type="checkbox" id="hide-metrics-yt" name="youtube.hideMetrics" />
         <label for="hide-metrics-yt">Hide metrics (Likes, share)</label>
       </div>
 
       <div>
-        <input type="checkbox" id="shorts-limit-yt" name="shorts-limit-yt" />
-        <select name="limit-period-shorts-yt" id="limit-period-shorts-yt">
-          <option value="daily">Diario</option>
-          <option value="hourly">Cada hora</option>
+        <input type="checkbox" id="shorts-limit-yt" name="youtube.shortsLimitEnabled" />
+        <select name="youtube.shortsLimitPeriod" id="limit-period-shorts-yt">
+          <option value="daily">Daily</option>
+          <option value="hourly">Hourly</option>
         </select>
         <label for="shorts-limit-yt">Shorts limit</label>
+          <input 
+          class="shorts-limit-input-yt" 
+          type="text" 
+          inputmode="numeric" 
+          name="youtube.shortsLimit"
+          data-min="0" 
+          data-max="99"
+        />
       </div>
     </div>
 

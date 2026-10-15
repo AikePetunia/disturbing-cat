@@ -2,7 +2,7 @@
 const create = document.getElementById("create");
 const inp1 = document.getElementById("inp1");
 const kwAddedContainer = document.getElementById("kw__added-container");
-const input = document.querySelector(".post-limit-general");
+const input = document.querySelector(".post-limit-input-ig");
 
 export function kwLogic() {
   create.addEventListener("click", () => {

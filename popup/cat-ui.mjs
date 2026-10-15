@@ -1,12 +1,26 @@
-import { kwLogic } from "./cat-kw-logic.mjs";
+import { kwLogic } from "./js/cat-kw-logic.mjs";
+import { cacheManaging } from "./js/cat-cache.mjs";
 
-const whereAmI = window.location.hostname;
+async function getActiveTab() {
+  if (typeof broser === "undefined") {
+    return [{ url: "https://www.instagram.com" }];
+  }
+  return await browser.tabs.query({ active: true, currentWindow: true });
+}
+
+getActiveTab().then((tab) => {
+  console.log("Active tab ID:", tab.id);
+  console.log("Active tab URL:", tab.url);
+});
+
 let extensionOn = false;
 
 const socialMediaIcon = {
   twIconPath: "../icons/social-media/tw.avif",
   igIconPath: "../icons/social-media/ig.avif",
   ytIconPath: "../icons/social-media/yt.avif",
+  defaultBlack: "../icons/disturbing-cat-32-black.avif",
+  defaultWhite: "../icons/disturbing-cat-32-white.avif",
 };
 
 const element = {
@@ -16,61 +30,13 @@ const element = {
   nothingToHide: document.querySelector(".nothing-to-hide"),
   globalSettings: document.querySelector(".global-settings"),
   kwContainerCuzImLazy: document.querySelector(".kw__container"),
+  anySettings: document.querySelectorAll("div.sm__configs"),
+  igSettings: document.querySelector(".sm__configs.instagram"),
+  twSettings: document.querySelector(".sm__configs.twitter"),
+  ytSettings: document.querySelector(".sm__configs.youtube"),
 };
 
-const defaultGlobalSettings = {
-  grayscale: false,
-  suggestions: true,
-  focus: false,
-  blacklistEnabled: false, // no está en dom
-  keywords: [],
-  twitter: {
-    friendList: true,
-    friendList: [], // no está en dom
-    allowKeywords: true,
-    seeTweetsFromFollowers: true,
-    removeUnnecesary: true,
-    limitEnabled: true,
-    limitType: {
-      diary: false,
-      hourly: true,
-    },
-    postLimit: 25,
-  },
-  instagram: {
-    friendList: true,
-    friendList: [], // no está en dom
-    allowKeywords: true,
-    removeUnnecesary: true,
-    hideMetrics: true,
-    storyLimitEnabled: true,
-    storyLimitType: {
-      diary: false,
-      hourly: true,
-    },
-    storyLimit: 25,
-    postsLimitEnabled: true,
-    postsLimitType: {
-      diary: false,
-      hourly: true,
-    },
-    postsLimit: 25,
-  },
-  youtube: {
-    removeAutoscroll: true,
-    removeUnnecesary: true,
-    hideComments: true,
-    hideMetrics: true,
-    limitEnabled: true,
-    shortsLimitEnabled: true,
-    shortsLimitType: {
-      diary: false,
-      hourly: true,
-    },
-    shortsLimit: 25,
-  },
-};
-
+function renderUi() {}
 element.extensionToggler.addEventListener("click", () => {
   handleToggler();
 });
@@ -79,12 +45,13 @@ function handleToggler() {
   extensionOn = !extensionOn;
   if (extensionOn) {
     element.extensionTogglerText.innerHTML = "Cat will disturb.";
-    changeUiOnDomain("youtube.com");
+    changeUiOnDomain("instagram.com");
   } else if (!extensionOn) {
     element.extensionTogglerText.innerHTML = "Cat won't disturb :).";
     executeDefault();
   }
 }
+
 handleToggler();
 
 function changeUiOnDomain(socialMedia) {
@@ -114,29 +81,120 @@ function changeUiOnDomain(socialMedia) {
 }
 
 function executeYoutubeUI() {
-  const nothingToHide = document.querySelector(".sm__configs.youtube");
-  nothingToHide.classList.remove("hidden");
+  element.ytSettings.classList.remove("hidden");
   element.mainIcon.src = socialMediaIcon.ytIconPath;
 }
 
 function executeInstagramUI() {
-  const nothingToHide = document.querySelector(".sm__configs.instagram");
-  nothingToHide.classList.remove("hidden");
+  element.igSettings.classList.remove("hidden");
   element.mainIcon.src = socialMediaIcon.igIconPath;
 }
+
 function executeTwitterUI() {
-  const nothingToHide = document.querySelector(".sm__configs.twitter");
-  nothingToHide.classList.remove("hidden");
+  element.twSettings.classList.remove("hidden");
   element.mainIcon.src = socialMediaIcon.twIconPath;
-  console.log("on tw");
 }
 
 function executeDefault() {
-  const anySettings = document.querySelectorAll("div.sm__configs");
   element.nothingToHide.classList.remove("hidden");
   element.globalSettings.classList.add("hidden");
   element.kwContainerCuzImLazy.classList.add("hidden");
-  anySettings.forEach((el) => el.classList.add("hidden"));
+  element.mainIcon.src = socialMediaIcon.defaultWhite;
+  element.anySettings.forEach((el) => el.classList.add("hidden"));
 }
 
 kwLogic();
+
+const defaultGlobalSettings = {
+  enabled: true, //  #global-extension-enable
+  grayscale: false,
+  suggestions: true,
+  focus: false,
+  blacklistEnabled: false,
+  keywords: [],
+
+  twitter: {
+    allowedListEnabled: false, // #allowed-posts-tw
+    allowedList: [], // Datos que cargarás aparte
+    allowKeywords: true, // #keywords-tw
+    onlyFollowing: true, // #only-following-tw
+    removeUnnecessary: true, // #remove-stuff-tw
+    tweetsLimitEnabled: true, // #tweets-limit-tw
+    tweetsLimitPeriod: "hourly", // #limit-period-tw ("daily" | "hourly")
+    tweetsLimit: 25, // input numérico
+  },
+
+  instagram: {
+    allowedListEnabled: false, // #allowed-posts-ig
+    allowedList: [],
+    removeUnnecessary: true, // #remove-stuff-ig
+    hideComments: true, // #hide-comments-ig
+    hideMetrics: true, // #hide-metrics-ig
+    postsLimitEnabled: true, // #posts-limit-ig
+    postsLimitPeriod: "hourly", // #limit-period-posts-ig
+    postsLimit: 25,
+    storyLimitEnabled: true, // #story-limit-ig
+    storyLimitPeriod: "hourly", // #limit-period-stories-ig
+    storyLimit: 25,
+  },
+
+  youtube: {
+    removeAutoscroll: true, // #no-autoscroll-yt
+    removeUnnecessary: true, // #remove-stuff-yt
+    hideComments: true, // #hide-comments-yt
+    hideMetrics: true, // #hide-metrics-yt
+    shortsLimitEnabled: true, // #shorts-limit-yt
+    shortsLimitPeriod: "hourly", // #limit-period-shorts-yt
+    shortsLimit: 25,
+  },
+};
+
+let settings = structuredClone(defaultSettings);
+
+async function initCache() {
+  const result = await browser.storage.local.get("catSettings");
+
+  if (result.catSettings) {
+    cache = result.catSettings;
+  } else {
+    await browser.storage.local.set({ catSettings: defaultSettings });
+  }
+
+  renderUI();
+}
+
+/**
+ * reads name="socialmedia.value" on the html for accesing values
+ */
+function getVal(obj, path) {
+  return path.split(".").reduce((acc, key) => acc?.[key], obk);
+}
+
+/**
+ * @param {cache} obj - the cache itself
+ * @param {*} path - value to change (the name="" property on the html)
+ * @param {*} value - new value for updating the caché object
+ *
+ * example: setVal(cache, "twitter.tweetsLimit", 50);
+ */
+function setVal(obj, path, value) {
+  const keys = path.split("."); // ["twitter", "tweetsLimit"].
+  const lastKey = keys.pop(); // ["twitter"]
+  const target = keys.reduce((acc, key) => acc[key], obj); // { tweetsLimit: 25, allowKeywords: true }.
+  target[lastKey] = value; // target["tweetsLimit"] = 50;
+}
+
+function renderUI() {
+  const inputs = document.querySelectorAll("input[name], select[name]");
+
+  inputs.forEach((input) => {
+    const path = input.namespaceURI;
+    const valor = getVal(cache, path);
+
+    if (input.type === "checkbox") {
+      input.checked = Boolean(valor);
+    } else {
+      input.value = valor ?? "";
+    }
+  });
+}
