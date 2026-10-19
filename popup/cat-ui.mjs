@@ -1,17 +1,13 @@
 import { kwLogic } from "./js/cat-kw-logic.mjs";
-import { cacheManaging } from "./js/cat-cache.mjs";
 
 async function getActiveTab() {
-  if (typeof broser === "undefined") {
+  if (typeof browser === "undefined") {
     return [{ url: "https://www.instagram.com" }];
   }
-  return await browser.tabs.query({ active: true, currentWindow: true });
-}
 
-getActiveTab().then((tab) => {
-  console.log("Active tab ID:", tab.id);
-  console.log("Active tab URL:", tab.url);
-});
+  const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+  return tab;
+}
 
 let extensionOn = false;
 
@@ -41,11 +37,38 @@ element.extensionToggler.addEventListener("click", () => {
   handleToggler();
 });
 
-function handleToggler() {
+async function handleToggler() {
   extensionOn = !extensionOn;
   if (extensionOn) {
     element.extensionTogglerText.innerHTML = "Cat will disturb.";
-    changeUiOnDomain("instagram.com");
+
+    getActiveTab().then((tab) => {
+      let socialMedia = tab.url;
+      element.nothingToHide.classList.add("hidden");
+      element.globalSettings.classList.remove("hidden");
+      element.kwContainerCuzImLazy.classList.remove("hidden");
+
+      switch (true) {
+        case socialMedia.includes("instagram.com") ||
+          socialMedia.includes("instagr.am") ||
+          socialMedia.includes("cdninstagram.com"):
+          executeInstagramUI();
+          break;
+
+        case socialMedia.includes("x.com") ||
+          socialMedia.includes("twitter.com"):
+          executeTwitterUI();
+          break;
+
+        case socialMedia.includes("youtu.be") ||
+          socialMedia.includes("youtube.com"):
+          executeYoutubeUI();
+          break;
+
+        default:
+          executeDefault();
+      }
+    });
   } else if (!extensionOn) {
     element.extensionTogglerText.innerHTML = "Cat won't disturb :).";
     executeDefault();
@@ -53,32 +76,6 @@ function handleToggler() {
 }
 
 handleToggler();
-
-function changeUiOnDomain(socialMedia) {
-  element.nothingToHide.classList.add("hidden");
-  element.globalSettings.classList.remove("hidden");
-  element.kwContainerCuzImLazy.classList.remove("hidden");
-
-  switch (true) {
-    case socialMedia.includes("instagram.com") ||
-      socialMedia.includes("instagr.am") ||
-      socialMedia.includes("cdninstagram.com"):
-      executeInstagramUI();
-      break;
-
-    case socialMedia.includes("x.com") || socialMedia.includes("twitter.com"):
-      executeTwitterUI();
-      break;
-
-    case socialMedia.includes("youtu.be") ||
-      socialMedia.includes("youtube.com"):
-      executeYoutubeUI();
-      break;
-
-    default:
-      executeDefault();
-  }
-}
 
 function executeYoutubeUI() {
   element.ytSettings.classList.remove("hidden");
@@ -105,7 +102,7 @@ function executeDefault() {
 
 kwLogic();
 
-const defaultGlobalSettings = {
+const defaultSettings = {
   enabled: true, //  #global-extension-enable
   grayscale: false,
   suggestions: true,
@@ -148,12 +145,12 @@ const defaultGlobalSettings = {
     shortsLimit: 25,
   },
 };
-
-let settings = structuredClone(defaultSettings);
+let cache = structuredClone(defaultSettings);
 
 async function initCache() {
-  const result = await browser.storage.local.get("catSettings");
-
+  let result = await browser.storage.local.get("catSettings");
+  console.log("result", result);
+  console.log("result example grayscale", result.catSettings.grayscale);
   if (result.catSettings) {
     cache = result.catSettings;
   } else {
@@ -163,11 +160,12 @@ async function initCache() {
   renderUI();
 }
 
+initCache();
 /**
  * reads name="socialmedia.value" on the html for accesing values
  */
 function getVal(obj, path) {
-  return path.split(".").reduce((acc, key) => acc?.[key], obk);
+  return path.split(".").reduce((acc, key) => acc?.[key], obj);
 }
 
 /**
@@ -188,7 +186,7 @@ function renderUI() {
   const inputs = document.querySelectorAll("input[name], select[name]");
 
   inputs.forEach((input) => {
-    const path = input.namespaceURI;
+    const path = input.name;
     const valor = getVal(cache, path);
 
     if (input.type === "checkbox") {
@@ -198,3 +196,27 @@ function renderUI() {
     }
   });
 }
+
+document.addEventListener("change", async (e) => {
+  const input = e.target;
+  const path = input.name;
+
+  if (!path) {
+    console.log("input name not found");
+    return;
+  }
+
+  let newValue;
+  if (input.type === "checkbox") {
+    newValue = input.checked;
+  } else if (input.dataset.min !== undefined) {
+    newValue = Number(input.value) || 0;
+  } else {
+    newValue = input.value;
+  }
+
+  // set the value on the catSettings cache
+  setVal(cache, path, newValue);
+
+  await browser.storage.local.set({ catSettings: cache });
+});

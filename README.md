@@ -4,8 +4,6 @@
 
 **Disturbing Cat** is a browser extension designed to cure digital addiction and break the infinite scrolling loop. Set strict daily or hourly limits for posts, tweets, and shorts, filter your feeds, and cut through the noise on social media. 
 
-Beware: **the cat gets angrier the more permissive you are.** 😾
-
 ## Features:
 
 - **Infinite Scroll Breaker:** Set custom daily or hourly limits for posts, stories, and shorts across Twitter, Instagram, and YouTube.
@@ -26,4 +24,4 @@ Beware: **the cat gets angrier the more permissive you are.** 😾
     Run in development mode using web-ext:
     Bash
 
-    npx web-ext run
+    npx web-ext run --devtools
