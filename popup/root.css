@@ -27,6 +27,8 @@ body {
   width: 400px;
   background-color: var(--bg);
   color: var(--text);
+  overflow: hidden;
+  padding: 4px;
 }
 
 .separator {

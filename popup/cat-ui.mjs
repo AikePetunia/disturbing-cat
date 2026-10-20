@@ -32,10 +32,11 @@ const element = {
   ytSettings: document.querySelector(".sm__configs.youtube"),
 };
 
-function renderUi() {}
 element.extensionToggler.addEventListener("click", () => {
   handleToggler();
 });
+
+handleToggler();
 
 async function handleToggler() {
   extensionOn = !extensionOn;
@@ -74,8 +75,6 @@ async function handleToggler() {
     executeDefault();
   }
 }
-
-handleToggler();
 
 function executeYoutubeUI() {
   element.ytSettings.classList.remove("hidden");
@@ -156,6 +155,8 @@ async function initCache() {
   } else {
     await browser.storage.local.set({ catSettings: defaultSettings });
   }
+
+  extensionOn = cache.enabled;
 
   renderUI();
 }
