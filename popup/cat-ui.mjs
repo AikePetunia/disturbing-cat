@@ -115,9 +115,10 @@ const defaultSettings = {
     allowKeywords: true, // #keywords-tw
     onlyFollowing: true, // #only-following-tw
     removeUnnecessary: true, // #remove-stuff-tw
+    removeMetrics: true,
     tweetsLimitEnabled: true, // #tweets-limit-tw
     tweetsLimitPeriod: "hourly", // #limit-period-tw ("daily" | "hourly")
-    tweetsLimit: 25, // input numérico
+    tweetsLimit: 25, // input numerico
   },
 
   instagram: {
@@ -148,8 +149,6 @@ let cache = structuredClone(defaultSettings);
 
 async function initCache() {
   let result = await browser.storage.local.get("catSettings");
-  console.log("result", result);
-  console.log("result example grayscale", result.catSettings.grayscale);
   if (result.catSettings) {
     cache = result.catSettings;
   } else {

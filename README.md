@@ -6,13 +6,13 @@
 
 ## Features:
 
-- **Infinite Scroll Breaker:** Set custom daily or hourly limits for posts, stories, and shorts across Twitter, Instagram, and YouTube.
-- **Allowed-Only Feeds:** Limit your feed to posts from selected accounts or non-distracting feeds.
-- **Grayscale Mode:** Remove bright colors and dopamine triggers with a site-wide grayscale filter.
-- **Distraction Cleaner:** Hide metrics (likes, views, reposts), comments, and unnecessary UI clutter.
-- **Focus Hours:** Program block intervals during work or study hours.
-- **Keyword Filtering:** Hide posts containing words or topics you want to avoid.
-- **Autoscroll Inhibitor:** Block auto-advancing reels and shorts to force intentional watching.
+- [] **Infinite Scroll Breaker:** Set custom daily or hourly limits for posts, stories, and shorts across Twitter, Instagram, and YouTube.
+- [] **Allowed-Only Feeds:** Limit your feed to posts from selected accounts or non-distracting feeds.
+- [x] **Grayscale Mode:** Remove bright colors and dopamine triggers with a site-wide grayscale filter.
+- [x] **Distraction Cleaner:** Hide metrics (likes, views, reposts), comments, and unnecessary UI clutter.
+- [] **Focus Hours:** Program block intervals during work or study hours. 
+- [] **Keyword Filtering:** Hide posts containing words or topics you want to avoid.
+- [] **Autoscroll Inhibitor:** Block auto-advancing reels and shorts to force intentional watching.
 
 ## Development
 
