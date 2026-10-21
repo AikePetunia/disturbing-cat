@@ -1,4 +1,5 @@
-import { kwLogic } from "./js/cat-kw-logic.mjs";
+import { kwLogic, renderKeywords } from "./js/cat-kw-logic.mjs";
+import { cache, loadCache, saveCache, getVal, setVal } from "./js/cat-cache.mjs";
 
 async function getActiveTab() {
   if (typeof browser === "undefined") {
@@ -101,86 +102,16 @@ function executeDefault() {
 
 kwLogic();
 
-const defaultSettings = {
-  enabled: true, //  #global-extension-enable
-  grayscale: false,
-  suggestions: true,
-  focus: false,
-  blacklistEnabled: false,
-  keywords: [],
-
-  twitter: {
-    allowedListEnabled: false, // #allowed-posts-tw
-    allowedList: [], // Datos que cargarás aparte
-    allowKeywords: true, // #keywords-tw
-    onlyFollowing: true, // #only-following-tw
-    removeUnnecessary: true, // #remove-stuff-tw
-    removeMetrics: true,
-    tweetsLimitEnabled: true, // #tweets-limit-tw
-    tweetsLimitPeriod: "hourly", // #limit-period-tw ("daily" | "hourly")
-    tweetsLimit: 25, // input numerico
-  },
-
-  instagram: {
-    allowedListEnabled: false, // #allowed-posts-ig
-    allowedList: [],
-    removeUnnecessary: true, // #remove-stuff-ig
-    hideComments: true, // #hide-comments-ig
-    hideMetrics: true, // #hide-metrics-ig
-    postsLimitEnabled: true, // #posts-limit-ig
-    postsLimitPeriod: "hourly", // #limit-period-posts-ig
-    postsLimit: 25,
-    storyLimitEnabled: true, // #story-limit-ig
-    storyLimitPeriod: "hourly", // #limit-period-stories-ig
-    storyLimit: 25,
-  },
-
-  youtube: {
-    removeAutoscroll: true, // #no-autoscroll-yt
-    removeUnnecessary: true, // #remove-stuff-yt
-    hideComments: true, // #hide-comments-yt
-    hideMetrics: true, // #hide-metrics-yt
-    shortsLimitEnabled: true, // #shorts-limit-yt
-    shortsLimitPeriod: "hourly", // #limit-period-shorts-yt
-    shortsLimit: 25,
-  },
-};
-let cache = structuredClone(defaultSettings);
-
 async function initCache() {
-  let result = await browser.storage.local.get("catSettings");
-  if (result.catSettings) {
-    cache = result.catSettings;
-  } else {
-    await browser.storage.local.set({ catSettings: defaultSettings });
-  }
+  await loadCache();
 
   extensionOn = cache.enabled;
 
   renderUI();
+  renderKeywords();
 }
 
 initCache();
-/**
- * reads name="socialmedia.value" on the html for accesing values
- */
-function getVal(obj, path) {
-  return path.split(".").reduce((acc, key) => acc?.[key], obj);
-}
-
-/**
- * @param {cache} obj - the cache itself
- * @param {*} path - value to change (the name="" property on the html)
- * @param {*} value - new value for updating the caché object
- *
- * example: setVal(cache, "twitter.tweetsLimit", 50);
- */
-function setVal(obj, path, value) {
-  const keys = path.split("."); // ["twitter", "tweetsLimit"].
-  const lastKey = keys.pop(); // ["twitter"]
-  const target = keys.reduce((acc, key) => acc[key], obj); // { tweetsLimit: 25, allowKeywords: true }.
-  target[lastKey] = value; // target["tweetsLimit"] = 50;
-}
 
 function renderUI() {
   const inputs = document.querySelectorAll("input[name], select[name]");
@@ -215,8 +146,8 @@ document.addEventListener("change", async (e) => {
     newValue = input.value;
   }
 
-  // set the value on the catSettings cache
+  // set the new value on the catSettings cache
   setVal(cache, path, newValue);
 
-  await browser.storage.local.set({ catSettings: cache });
+  await saveCache();
 });

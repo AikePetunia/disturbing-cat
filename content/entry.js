@@ -1,55 +1,81 @@
 let activeSettings = null;
+let platformModule = null;
+let debounceTimeout = null;
 
-async function loadAndApply() {
-  const cache = await browser.storage.local.get("catSettings");
-  if (!cache.catSettings || !cache.catSettings.enabled) {
-    return;
-  }
-
-  activeSettings = cache.catSettings;
-
-  // if (!activeSettings.enabled) return;
-  // la extension sigue andando por mas q este disabled.
-  // de igual manera tengo un bug raro
-  applyCat();
-}
-loadAndApply();
-
-async function applyCat() {
-  // a diferencia de cat-ui.mjs, ahora no necesito browser, por que este js ya está dentor de la pagina.
+async function init() {
   const domain = window.location.hostname;
-  let plataform;
-  let moduleUrl;
-  applyGrayScale(activeSettings.grayscale);
+  let modulePath = null;
 
   switch (true) {
-    case domain.includes("instagram.com") ||
-      domain.includes("instagr.am") ||
-      domain.includes("cdninstagram.com"):
-      plataform = "instagram";
-      moduleUrl = browser.runtime.getURL("content/instagram.js");
-      platformModule = await import(moduleUrl);
-      break;
-
     case domain.includes("x.com") || domain.includes("twitter.com"):
-      plataform = "twitter";
-      console.log("[tw] switch twitter");
-      moduleUrl = browser.runtime.getURL("content/twitter.js");
-      platformModule = await import(moduleUrl);
-      platformModule.twitter();
+      modulePath = "content/twitter.js";
       break;
 
-    case domain.includes("youtu.be") || domain.includes("youtube.com"):
-      plataform = "youtube";
-      moduleUrl = browser.runtime.getURL("content/youtube.js");
-      platformModule = await import(moduleUrl);
+    case domain.includes("instagram.com") || domain.includes("instagr.am"):
+      modulePath = "content/instagram.js";
       break;
 
-    default:
+    case domain.includes("youtube.com") || domain.includes("youtu.be"):
+      modulePath = "content/youtube.js";
       break;
   }
 
-  if (!platformModule) return;
+  if (modulePath) {
+    const moduleUrl = browser.runtime.getURL(modulePath);
+    platformModule = await import(moduleUrl);
+  }
+
+  const cache = await browser.storage.local.get("catSettings");
+  applySettings(cache?.catSettings);
+
+  browser.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && changes.catSettings) {
+      applySettings(changes.catSettings.newValue);
+    }
+  });
+
+  startObserver();
+}
+
+function applySettings(settings) {
+  activeSettings = settings;
+  const enabled = Boolean(settings?.enabled);
+
+  applyGrayScale(enabled && settings.grayscale);
+
+  if (platformModule?.twitter) {
+    platformModule.twitter(
+      enabled
+        ? {
+            ...settings.twitter,
+            keywords: settings.keywords,
+            suggestions: settings.suggestions,
+          }
+        : null
+    );
+  }
+}
+
+// for changes on the dom
+function startObserver() {
+  const target = document.body || document.documentElement;
+  if (!target) return;
+
+  const observer = new MutationObserver(() => {
+    if (!activeSettings?.enabled) return;
+
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      if (platformModule?.runAllCleaners) {
+        platformModule.runAllCleaners();
+      }
+    }, 150);
+  });
+
+  observer.observe(target, {
+    childList: true,
+    subtree: true,
+  });
 }
 
 function applyGrayScale(enabled) {
@@ -57,23 +83,15 @@ function applyGrayScale(enabled) {
   let styleTag = document.getElementById(styleId);
 
   if (enabled) {
-    styleTag = document.createElement("style");
-    styleTag.id = styleId;
-    styleTag.textContent = "html { filter: grayscale(100%) !important; }";
-    document.head.appendChild(styleTag);
+    if (!styleTag) {
+      styleTag = document.createElement("style");
+      styleTag.id = styleId;
+      styleTag.textContent = "html { filter: grayscale(100%) !important; }";
+      (document.head || document.documentElement).appendChild(styleTag);
+    }
   } else if (styleTag) {
     styleTag.remove();
   }
 }
 
-function allowSuggestions() {}
-
-// si el dom se update, la extension updatea.
-const observer = new MutationObserver(() => {
-  applyCat();
-});
-
-observer.observe(document.body, {
-  childList: true,
-  subtree: true,
-});
+init();

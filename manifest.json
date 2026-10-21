@@ -28,12 +28,12 @@
         "*://*.youtu.be/*"
       ],
       "js": ["content/entry.js"],
-      "run_at": "document_idle"
+      "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["content/*.js"],
+      "resources": ["content/*.js", "content/utils/*.js"],
       "matches": ["*://*/*"]
     }
   ],

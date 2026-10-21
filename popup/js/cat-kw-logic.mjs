@@ -1,24 +1,45 @@
 // keywords logic
+import { cache, saveCache } from "./cat-cache.mjs";
+
 const create = document.getElementById("create");
 const inp1 = document.getElementById("inp1");
 const kwAddedContainer = document.getElementById("kw__added-container");
 const input = document.querySelector(".post-limit-input-ig");
 
+// draws a chip per saved keyword; clicking a chip deletes it
+export function renderKeywords() {
+  kwAddedContainer.replaceChildren();
+
+  cache.keywords.forEach((kw) => {
+    let newELement = document.createElement("span");
+    newELement.classList.add("kw__blacklist");
+    newELement.textContent = kw;
+    kwAddedContainer.append(newELement);
+
+    newELement.addEventListener("click", async () => {
+      cache.keywords = cache.keywords.filter((k) => k !== kw);
+      renderKeywords();
+      await saveCache();
+    });
+  });
+}
+
 export function kwLogic() {
-  create.addEventListener("click", () => {
-    let inp = inp1.value;
+  create.addEventListener("click", async () => {
+    let inp = inp1.value.trim();
+    inp1.value = "";
 
     if (inp === "") return;
 
-    let newELement = document.createElement("span");
-    newELement.classList.add("kw__blacklist");
-    newELement.innerHTML = inp;
-    kwAddedContainer.append(newELement);
+    // the filter ignores case, so "IA" and "ia" are the same keyword
+    const exists = cache.keywords.some(
+      (kw) => kw.toLowerCase() === inp.toLowerCase()
+    );
+    if (exists) return;
 
-    newELement.addEventListener("click", () => {
-      newELement.remove();
-    });
-    inp1.value = "";
+    cache.keywords.push(inp);
+    renderKeywords();
+    await saveCache();
   });
 
   input.addEventListener("input", (e) => {
